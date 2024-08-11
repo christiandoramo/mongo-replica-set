@@ -46,15 +46,13 @@ initiate_replica_set() {
   debug_log "_id: $REPLICA_SET_NAME"
   debug_log "Primary member: $MONGO_PRIMARY_HOST:$MONGO_PORT"
   debug_log "Replica member 1: $MONGO_REPLICA_HOST:$MONGO_PORT"
-  debug_log "Replica member 2: $MONGO_REPLICA2_HOST:$MONGO_PORT"
 
   mongosh --host "$MONGO_PRIMARY_HOST" --port "$MONGO_PORT" --username "$MONGOUSERNAME" --password "$MONGOPASSWORD" --authenticationDatabase "admin" <<EOF
 rs.initiate({
   _id: "$REPLICA_SET_NAME",
   members: [
     { _id: 0, host: "$MONGO_PRIMARY_HOST:$MONGO_PORT" },
-    { _id: 1, host: "$MONGO_REPLICA_HOST:$MONGO_PORT" },
-    { _id: 2, host: "$MONGO_REPLICA2_HOST:$MONGO_PORT" }
+    { _id: 1, host: "$MONGO_REPLICA_HOST:$MONGO_PORT" }
   ]
 })
 EOF
@@ -63,7 +61,7 @@ EOF
   return $init_exit_code
 }
 
-nodes=("$MONGO_PRIMARY_HOST:$MONGO_PORT" "$MONGO_REPLICA_HOST:$MONGO_PORT" "$MONGO_REPLICA2_HOST:$MONGO_PORT")
+nodes=("$MONGO_PRIMARY_HOST:$MONGO_PORT" "$MONGO_REPLICA_HOST:$MONGO_PORT")
 
 print_on_start
 
